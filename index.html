@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicSeva - Transparent Civic Governance Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: linear-gradient(135deg, #0a0510 0%, #0f1220 50%, #050a15 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blob1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #9370db, transparent);
+            top: -100px;
+            right: -50px;
+            animation-delay: 0s;
+        }
+
+        .blob2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #00d4ff, transparent);
+            bottom: 50px;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        .blob3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #00f0ff, transparent);
+            top: 50%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(30px, -30px); }
+            66% { transform: translate(-20px, 20px); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(10, 5, 16, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(147, 112, 219, 0.1);
+            z-index: 100;
+            animation: headerSlideIn 0.8s ease-out;
+        }
+
+        @keyframes headerSlideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9370db 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .header-btn {
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            color: #0a0510;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .header-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(147, 112, 219, 0.4);
+        }
+
+        /* Landing Page */
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            z-index: 2;
+            animation: heroFadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            letter-spacing: -1px;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(135deg, #9370db 0%, #00d4ff 50%, #00f0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            color: #0a0510;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'IBM Plex Sans', sans-serif;
+            letter-spacing: 0.5px;
+            box-shadow: 0 20px 50px rgba(147, 112, 219, 0.3);
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 70px rgba(147, 112, 219, 0.5);
+        }
+
+        /* Animated Grid */
+        .feature-grid-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+            animation: gridFadeIn 1s ease-out 0.6s both;
+        }
+
+        @keyframes gridFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-preview {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(147, 112, 219, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-preview:hover {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(0, 212, 255, 0.1));
+            border-color: rgba(147, 112, 219, 0.4);
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-preview h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .feature-preview p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Key Features Section */
+        .key-features {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.12), rgba(0, 212, 255, 0.04));
+            border: 1px solid rgba(147, 112, 219, 0.25);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            animation: cardPopIn 0.6s ease-out backwards;
+        }
+
+        @keyframes cardPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .feature-card:hover {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.18), rgba(0, 212, 255, 0.08));
+            border-color: rgba(147, 112, 219, 0.5);
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(147, 112, 219, 0.2);
+        }
+
+        .feature-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* How to Use Section */
+        .how-to-use {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(147, 112, 219, 0.05) 0%, transparent 100%);
+            position: relative;
+            z-index: 2;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(147, 112, 219, 0.05));
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            animation: stepSlideIn 0.6s ease-out backwards;
+        }
+
+        @keyframes stepSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.3s; }
+        .step-card:nth-child(3) { animation-delay: 0.5s; }
+        .step-card:nth-child(4) { animation-delay: 0.7s; }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            color: #0a0510;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .step-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .step-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Page Content Areas */
+        .page-content {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+            animation: pageSlideIn 0.6s ease-out;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes pageSlideIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Citizen Page - Slide UP */
+        @keyframes pageSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Officer Page - Bounce IN */
+        @keyframes pageBounceIn {
+            from {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Verify Page - Glow Fade IN */
+        @keyframes pageGlowIn {
+            from {
+                opacity: 0;
+                filter: blur(10px);
+                box-shadow: 0 0 0 rgba(0, 212, 255, 0.5);
+            }
+            to {
+                opacity: 1;
+                filter: blur(0);
+                box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            }
+        }
+
+        /* Analytics Page - Slide from LEFT */
+        @keyframes pageSlideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Citizen Page */
+        .citizen-page {
+            background: linear-gradient(135deg, #0a0510 0%, #1a0f2e 100%);
+        }
+
+        .complaint-form-container {
+            max-width: 700px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .form-card {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(147, 112, 219, 0.2);
+            padding: 3rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            animation: formSlideUp 0.6s ease-out;
+        }
+
+        @keyframes formSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .form-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #9370db;
+            box-shadow: 0 0 20px rgba(147, 112, 219, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            color: #0a0510;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(147, 112, 219, 0.4);
+        }
+
+        /* Complaints List */
+        .complaints-container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .complaint-item {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(147, 112, 219, 0.2);
+            padding: 1.8rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            animation: itemFadeIn 0.5s ease-out backwards;
+        }
+
+        @keyframes itemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .complaint-item:hover {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(0, 212, 255, 0.08));
+            border-color: rgba(147, 112, 219, 0.4);
+            transform: translateX(10px);
+        }
+
+        .complaint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .complaint-id {
+            font-family: 'IBM Plex Mono', monospace;
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(147, 112, 219, 0.3);
+            color: #b89fff;
+        }
+
+        .complaint-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        /* Officer Page */
+        .officer-page {
+            background: linear-gradient(135deg, #0a1020 0%, #0f1a2e 100%);
+        }
+
+        .dashboard-header {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding: 0 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(0, 212, 255, 0.08));
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            animation: statBounce 0.6s ease-out backwards;
+        }
+
+        @keyframes statBounce {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .stat-box:nth-child(1) { animation-delay: 0.1s; }
+        .stat-box:nth-child(2) { animation-delay: 0.2s; }
+        .stat-box:nth-child(3) { animation-delay: 0.3s; }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        /* Verify Page */
+        .verify-page {
+            background: linear-gradient(135deg, #0a0510 0%, #0f1220 100%);
+        }
+
+        .verify-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .verify-form {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(147, 112, 219, 0.05));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 3rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            animation: verifyFadeIn 0.6s ease-out;
+        }
+
+        @keyframes verifyFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .verify-form h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .verify-form p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .search-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-group input {
+            flex: 1;
+        }
+
+        .search-group button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00d4ff, #9370db);
+            color: #0a0510;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .search-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Analytics Page */
+        .analytics-page {
+            background: linear-gradient(135deg, #0f0a1a 0%, #1a0f2e 100%);
+        }
+
+        .analytics-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .analytics-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #9370db 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .analytics-card {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.12), rgba(0, 212, 255, 0.06));
+            border: 1px solid rgba(147, 112, 219, 0.25);
+            padding: 2rem;
+            border-radius: 12px;
+            animation: analyticsSlide 0.6s ease-out backwards;
+        }
+
+        @keyframes analyticsSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .analytics-card:nth-child(1) { animation-delay: 0.1s; }
+        .analytics-card:nth-child(2) { animation-delay: 0.2s; }
+        .analytics-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .analytics-card h3 {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .analytics-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9370db, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Success Message */
+        .success-popup {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(0, 255, 100, 0.1));
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: #7cfc00;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            z-index: 200;
+            animation: popupSlide 0.5s ease-out;
+            display: none;
+            font-weight: 600;
+        }
+
+        .success-popup.show {
+            display: block;
+        }
+
+        @keyframes popupSlide {
+            from {
+                transform: translateX(-50%) translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 1rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .feature-grid-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .search-group {
+                flex-direction: column;
+            }
+
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+
+            .access-portal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portal-icon {
+                font-size: 3rem;
+            }
+
+            .portal-card h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Portal Cards */
+        .access-portal-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .portal-card {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(0, 212, 255, 0.08));
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: portalPopIn 0.6s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes portalPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .portal-card:nth-child(1) { 
+            animation-delay: 0.1s;
+        }
+
+        .portal-card:nth-child(2) { 
+            animation-delay: 0.2s;
+        }
+
+        .portal-card:nth-child(3) { 
+            animation-delay: 0.3s;
+        }
+
+        .portal-card:nth-child(4) { 
+            animation-delay: 0.4s;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .portal-card:hover::before {
+            left: 100%;
+        }
+
+        .portal-card:hover {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.25), rgba(0, 212, 255, 0.15));
+            border-color: rgba(147, 112, 219, 0.6);
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(147, 112, 219, 0.3);
+        }
+
+        .portal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: portalIconBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes portalIconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .portal-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .portal-card p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .portal-cta {
+            color: #00d4ff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .portal-card:hover .portal-cta {
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 100px;
+            left: 2rem;
+            background: rgba(147, 112, 219, 0.2);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: none;
+            z-index: 90;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .back-button.show {
+            display: block;
+        }
+
+        .back-button:hover {
+            background: rgba(147, 112, 219, 0.3);
+            border-color: rgba(147, 112, 219, 0.6);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">◆ CivicSeva</div>
+            <div style="display: flex; align-items: center; gap: 1.2rem;">
+                <div id="authStatus" style="color: rgba(255,255,255,0.8); font-size: 0.9rem; font-weight: 500;"></div>
+                <button class="header-btn" id="authButton" style="background: rgba(147, 112, 219, 0.2); color: #fff; border: 1px solid rgba(147, 112, 219, 0.4);">Login</button>
+                <button class="header-btn" id="headerCTA" onclick="goToComplaint()">File Complaint</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Back Button -->
+    <button class="back-button" id="backBtn" onclick="goToHome()">← Back to Home</button>
+
+    <!-- Auth Page (Login / Sign Up) -->
+    <div id="auth-page" class="citizen-page page-content">
+        <div class="complaint-form-container">
+            <div class="form-card">
+                <h2 id="authTitle">Citizen Login</h2>
+                <p class="form-subtitle" id="authSubtitle">Welcome back — log in to continue</p>
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <button type="button" id="roleTabCitizen" onclick="setAuthRole('citizen')"
+                        style="flex: 1; padding: 0.9rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; background: linear-gradient(135deg, #9370db, #00d4ff); color: #0a0510;">Citizen</button>
+                    <button type="button" id="roleTabOfficer" onclick="setAuthRole('officer')"
+                        style="flex: 1; padding: 0.9rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; background: rgba(147, 112, 219, 0.3); color: #b89fff;">Officer</button>
+                </div>
+
+                <div id="authError" style="display: none; color: #ff8a8a; background: rgba(255, 60, 60, 0.1); border: 1px solid rgba(255, 60, 60, 0.35); padding: 0.9rem 1.1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
+
+                <div class="form-group" id="authNameGroup" style="display: none;">
+                    <label>Full Name</label>
+                    <input type="text" id="authName" placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="authEmail" placeholder="you@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="authPassword" placeholder="At least 6 characters">
+                </div>
+
+                <button class="submit-btn" id="authSubmitBtn" onclick="submitAuth()">Log In</button>
+
+                <p style="margin-top: 1.5rem; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                    <span id="authToggleText">Don't have an account?</span>
+                    <a href="#" onclick="toggleAuthMode(); return false;" style="color: #00d4ff; font-weight: 600;" id="authToggleLink">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Landing Page -->
+    <div id="landing-page" class="landing-page page-content active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Transparent Civic Governance Through <span class="hero-highlight">Blockchain</span></h1>
+                <p class="hero-subtitle">A complaint can be ignored. A verified record cannot. Build accountable cities where every citizen complaint is permanent, transparent, and impossible to erase.</p>
+                
+                <button class="cta-button" onclick="goToComplaint()">File Your Complaint</button>
+
+                <div class="feature-grid-preview">
+                    <div class="feature-preview">
+                        <div class="feature-icon">✓</div>
+                        <h3>Immutable Records</h3>
+                        <p>Once filed, complaints cannot be deleted or modified. Cryptographically secured forever.</p>
+                    </div>
+                    <div class="feature-preview">
+                        <div class="feature-icon">👁️</div>
+                        <h3>Complete Transparency</h3>
+                        <p>Every action, every response, every status change is publicly visible and verifiable.</p>
+                    </div>
+                    <div class="feature-preview">
+                        <div class="feature-icon">🔐</div>
+                        <h3>Zero Corruption</h3>
+                        <p>Blockchain technology makes it mathematically impossible to hide or deny accountability.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Features Section -->
+        <div class="key-features">
+            <h2 class="section-title">Why CivicSeva?</h2>
+            <p class="section-subtitle">Six reasons why blockchain transforms civic governance</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-number">01</div>
+                    <h3>Permanent Records</h3>
+                    <p>Every complaint is recorded with an immutable timestamp. No deletion, no hiding, no denial possible.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">02</div>
+                    <h3>Public Verification</h3>
+                    <p>Citizens can verify complaint status 24/7 without logging in. Everyone can audit everything.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">03</div>
+                    <h3>Officer Accountability</h3>
+                    <p>Each officer's performance is public. Response time, resolution rate, all visible to citizens.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">04</div>
+                    <h3>Decentralized System</h3>
+                    <p>Data is stored on thousands of nodes. No single failure point. No server to hack or corrupt.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">05</div>
+                    <h3>Data-Driven Cities</h3>
+                    <p>Analytics show which areas have most issues, which officers respond fastest, where to invest.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">06</div>
+                    <h3>Cost Effective</h3>
+                    <p>No expensive databases. No middlemen. Automated system reduces administrative overhead by 70%.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Access Portal Section -->
+        <div class="how-to-use">
+            <h2 class="section-title">Choose Your Access Portal</h2>
+            <p class="section-subtitle">Select your role to get started</p>
+            
+            <div class="access-portal-grid">
+                <div class="portal-card" onclick="openCitizen()">
+                    <div class="portal-icon">👤</div>
+                    <h3>Citizen</h3>
+                    <p>File complaints, track status, and verify your rights</p>
+                    <div class="portal-cta">→ Enter Portal</div>
+                </div>
+                <div class="portal-card" onclick="openOfficer()">
+                    <div class="portal-icon">👮</div>
+                    <h3>Officer</h3>
+                    <p>Manage complaints and track your performance</p>
+                    <div class="portal-cta">→ Enter Portal</div>
+                </div>
+                <div class="portal-card" onclick="openVerify()">
+                    <div class="portal-icon">✓</div>
+                    <h3>Verify</h3>
+                    <p>Public verification - search any complaint ID</p>
+                    <div class="portal-cta">→ Enter Portal</div>
+                </div>
+                <div class="portal-card" onclick="openAnalytics()">
+                    <div class="portal-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>City-wide data and insights</p>
+                    <div class="portal-cta">→ Enter Portal</div>
+                </div>
+                <div class="portal-card" onclick="openCommunity()">
+                    <div class="portal-icon">💬</div>
+                    <h3>Community</h3>
+                    <p>Browse local complaints, agree, and discuss</p>
+                    <div class="portal-cta">→ Enter Portal</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="how-to-use" style="background: none; padding-top: 0;">
+            <h2 class="section-title">How CivicSeva Works</h2>
+            <p class="section-subtitle">Four simple steps to file and track your complaint</p>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>File Complaint</h3>
+                    <p>Submit your complaint with location and details. Get an immutable ID instantly.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Blockchain Lock</h3>
+                    <p>Record is locked on blockchain forever. Cannot be deleted or modified by anyone.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Public Action</h3>
+                    <p>Officer responds publicly. Every action is timestamped and permanently recorded.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Verify Anytime</h3>
+                    <p>Check your complaint status 24/7. Verify with blockchain proof. Share with public.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Citizen Page -->
+    <div id="citizen-page" class="citizen-page page-content">
+        <div class="complaint-form-container">
+            <div class="form-card">
+                <h2>File a Complaint</h2>
+                <p class="form-subtitle">Your complaint will be recorded permanently on blockchain</p>
+
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="citizenName" readonly style="opacity: 0.7; cursor: not-allowed;">
+                </div>
+
+                <div class="form-group">
+                    <label>Field / Department</label>
+                    <select id="category" onchange="handleCategoryChange()">
+                        <option>Pothole / Road Damage</option>
+                        <option>Water Leak / Sewage</option>
+                        <option>Electricity Issue</option>
+                        <option>Street Lighting</option>
+                        <option>Waste Management</option>
+                        <option>Traffic Signal</option>
+                        <option>Public Safety</option>
+                        <option>Educational Institution</option>
+                        <option>Construction / Building</option>
+                        <option>Healthcare Facility</option>
+                        <option value="__other__">Other (type below)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="categoryOtherGroup" style="display: none;">
+                    <label>Specify Field</label>
+                    <input type="text" id="categoryOther" placeholder="e.g. Public Transport, Parks &amp; Recreation">
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="location" placeholder="Street name, area, district">
+                </div>
+
+                <div class="form-group">
+                    <label>Detailed Description</label>
+                    <textarea id="description" placeholder="Describe the issue in detail. Include what happened, when, and why it needs attention..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Urgency</label>
+                    <div style="display: flex; gap: 0.8rem;">
+                        <button type="button" class="flair-btn" data-priority="URGENT" onclick="setPriority('URGENT')" style="flex: 1; padding: 0.9rem; border-radius: 8px; font-weight: 700; cursor: pointer; border: 2px solid #ff4d4d; background: transparent; color: #ff8080;">🔴 Urgent</button>
+                        <button type="button" class="flair-btn" data-priority="MEDIUM" onclick="setPriority('MEDIUM')" style="flex: 1; padding: 0.9rem; border-radius: 8px; font-weight: 700; cursor: pointer; border: 2px solid #ff9800; background: transparent; color: #ffb74d;">🟠 Medium</button>
+                        <button type="button" class="flair-btn" data-priority="LOW" onclick="setPriority('LOW')" style="flex: 1; padding: 0.9rem; border-radius: 8px; font-weight: 700; cursor: pointer; border: 2px solid #4caf50; background: transparent; color: #81c784;">🟢 Low</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Photo Evidence (optional)</label>
+                    <input type="file" id="complaintImages" accept="image/*" multiple onchange="handleImageSelect(event, 'complaintImagePreview', 'complaintImagesData')">
+                    <div id="complaintImagePreview" style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.8rem;"></div>
+                </div>
+
+                <div id="duplicateNotice" style="display: none; background: rgba(255, 152, 0, 0.12); border: 1px solid rgba(255, 152, 0, 0.4); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
+
+                <button class="submit-btn" onclick="fileComplaint()">Submit Complaint</button>
+            </div>
+        </div>
+
+        <div class="complaints-container">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem;">Your Complaints</h2>
+            <div id="complaintsList"></div>
+        </div>
+    </div>
+
+    <!-- Officer Page -->
+    <div id="officer-page" class="officer-page page-content">
+        <div class="dashboard-header">
+            <h2 class="dashboard-title">Officer Dashboard</h2>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 1.05rem;">Manage pending complaints and track your performance</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalComplaints">0</div>
+                    <div class="stat-label">Total Assigned</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="pendingComplaints">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="resolvedComplaints">0</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="complaints-container">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem; margin-top: 2rem;">Pending Complaints</h2>
+            <div id="officerComplaints"></div>
+        </div>
+    </div>
+
+    <!-- Verify Page -->
+    <div id="verify-page" class="verify-page page-content">
+        <div class="verify-container">
+            <div class="verify-form">
+                <h2>Verify Complaint Status</h2>
+                <p>Enter a complaint ID to see its complete blockchain history and current status</p>
+
+                <div class="search-group">
+                    <input type="text" id="searchId" placeholder="Enter Complaint ID (e.g., CC-001)">
+                    <button onclick="verifyComplaint()">Verify</button>
+                </div>
+
+                <div id="verifyResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Page -->
+    <div id="analytics-page" class="analytics-page page-content">
+        <div class="analytics-container">
+            <h2 class="analytics-title">City Analytics</h2>
+
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3>Total Complaints</h3>
+                    <div class="analytics-value" id="totalAnalytics">0</div>
+                </div>
+                <div class="analytics-card">
+                    <h3>Resolution Rate</h3>
+                    <div class="analytics-value" id="resolutionRate">0%</div>
+                </div>
+                <div class="analytics-card">
+                    <h3>Avg. Response Time</h3>
+                    <div class="analytics-value" id="avgResponseTime">0 days</div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(0, 212, 255, 0.05)); border: 1px solid rgba(147, 112, 219, 0.2); border-radius: 12px; padding: 2rem; backdrop-filter: blur(10px);">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Top Issues by Category</h2>
+                <div id="categoriesBreakdown"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Feed Page -->
+    <div id="community-page" class="analytics-page page-content">
+        <div class="analytics-container">
+            <h2 class="analytics-title">Community Feed</h2>
+            <p class="section-subtitle" style="margin-bottom: 2rem;">Browse local complaints, add your agreement, and discuss</p>
+            <div id="communityList" style="display: flex; flex-direction: column; gap: 1.2rem;"></div>
+        </div>
+    </div>
+
+    <!-- Complaint Detail Overlay (used by Community feed) -->
+    <div id="detailOverlay" style="display: none; position: fixed; inset: 0; background: rgba(5, 2, 10, 0.85); backdrop-filter: blur(6px); z-index: 999; overflow-y: auto; padding: 3rem 1.5rem;">
+        <div style="max-width: 800px; margin: 0 auto; background: linear-gradient(135deg, rgba(30, 15, 45, 0.98), rgba(15, 10, 30, 0.98)); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 16px; padding: 2rem;">
+            <button onclick="closeDetail()" style="float: right; background: rgba(147, 112, 219, 0.2); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1.1rem;">✕</button>
+            <div id="detailContent"></div>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div class="success-popup" id="successPopup">✓ Complaint filed successfully!</div>
+
+    <script>
+        // ---- Config ----
+        const API_BASE = window.CivicSeva_API_BASE || 'http://localhost:5000/api';
+
+        // ---- Session state ----
+        let authToken = localStorage.getItem('cc_token') || null;
+        let currentUser = JSON.parse(localStorage.getItem('cc_user') || 'null');
+        let authMode = 'login';
+        let authRole = 'citizen';
+        let lastScrollPosition = 0;
+        let selectedPriority = null;
+        let complaintImagesData = [];
+        let pendingDuplicateComplaintId = null;
+
+        function saveSession(token, user) {
+            authToken = token;
+            currentUser = user;
+            localStorage.setItem('cc_token', token);
+            localStorage.setItem('cc_user', JSON.stringify(user));
+            renderAuthStatus();
+        }
+
+        function clearSession() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('cc_token');
+            localStorage.removeItem('cc_user');
+            renderAuthStatus();
+        }
+
+        function renderAuthStatus() {
+            const statusEl = document.getElementById('authStatus');
+            const btnEl = document.getElementById('authButton');
+            if (currentUser) {
+                statusEl.textContent = `${currentUser.name} · ${currentUser.role}`;
+                btnEl.textContent = 'Logout';
+                btnEl.onclick = () => { clearSession(); goToHome(); };
+            } else {
+                statusEl.textContent = '';
+                btnEl.textContent = 'Login';
+                btnEl.onclick = () => {
+                    authMode = 'login';
+                    setAuthRole('citizen');
+                    switchPage('auth-page');
+                };
+            }
+        }
+
+        async function apiFetch(path, options = {}) {
+            const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
+            if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
+            let res;
+            try {
+                res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+            } catch (networkErr) {
+                throw new Error('Could not reach the CivicSeva API. Is the backend running?');
+            }
+            let data = null;
+            try { data = await res.json(); } catch (e) { /* empty body */ }
+            if (!res.ok) {
+                throw new Error((data && data.error) || `Request failed (${res.status})`);
+            }
+            return data;
+        }
+
+        // ---- Auth page ----
+        function setAuthRole(role) {
+            authRole = role;
+            const active = { background: 'linear-gradient(135deg, #9370db, #00d4ff)', color: '#0a0510' };
+            const inactive = { background: 'rgba(147, 112, 219, 0.3)', color: '#b89fff' };
+            const citizenTab = document.getElementById('roleTabCitizen');
+            const officerTab = document.getElementById('roleTabOfficer');
+            Object.assign(citizenTab.style, role === 'citizen' ? active : inactive);
+            Object.assign(officerTab.style, role === 'officer' ? active : inactive);
+            updateAuthUI();
+        }
+
+        function toggleAuthMode() {
+            authMode = authMode === 'login' ? 'register' : 'login';
+            updateAuthUI();
+        }
+
+        function updateAuthUI() {
+            const roleLabel = authRole === 'citizen' ? 'Citizen' : 'Officer';
+            document.getElementById('authTitle').textContent = `${roleLabel} ${authMode === 'login' ? 'Login' : 'Sign Up'}`;
+            document.getElementById('authSubtitle').textContent = authMode === 'login'
+                ? 'Welcome back — log in to continue'
+                : 'Create an account to get started';
+            document.getElementById('authNameGroup').style.display = authMode === 'register' ? 'block' : 'none';
+            document.getElementById('authSubmitBtn').textContent = authMode === 'login' ? 'Log In' : 'Create Account';
+            document.getElementById('authToggleText').textContent = authMode === 'login'
+                ? "Don't have an account?" : 'Already have an account?';
+            document.getElementById('authToggleLink').textContent = authMode === 'login' ? 'Sign up' : 'Log in';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        async function submitAuth() {
+            const errorEl = document.getElementById('authError');
+            errorEl.style.display = 'none';
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const name = document.getElementById('authName').value.trim();
+
+            if (!email || !password || (authMode === 'register' && !name)) {
+                errorEl.textContent = 'Please fill all fields';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                const data = authMode === 'login'
+                    ? await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) })
+                    : await apiFetch('/auth/register', {
+                        method: 'POST',
+                        body: JSON.stringify({ name, email, password, role: authRole }),
+                    });
+
+                if (data.user.role !== authRole) {
+                    errorEl.textContent = `This account is registered as "${data.user.role}", not "${authRole}". Switch tabs above.`;
+                    errorEl.style.display = 'block';
+                    return;
+                }
+
+                saveSession(data.token, data.user);
+                document.getElementById('authEmail').value = '';
+                document.getElementById('authPassword').value = '';
+                document.getElementById('authName').value = '';
+
+                if (authRole === 'citizen') openCitizen(); else openOfficer();
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function requireLoginOrPrompt(role) {
+            if (currentUser && (!role || currentUser.role === role)) return true;
+            alert(`Please log in${role ? ` as a ${role}` : ''} first.`);
+            authMode = 'login';
+            setAuthRole(role || 'citizen');
+            switchPage('auth-page');
+            return false;
+        }
+
+        // ---- Page navigation ----
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('backBtn').classList[pageId === 'landing-page' ? 'remove' : 'add']('show');
+            if (pageId !== 'landing-page') window.scrollTo(0, 0);
+        }
+
+        function goToHome() {
+            switchPage('landing-page');
+            setTimeout(() => window.scrollTo({ top: lastScrollPosition, behavior: 'smooth' }), 50);
+        }
+
+        function goToComplaint() {
+            lastScrollPosition = window.scrollY;
+            openCitizen();
+        }
+
+        function requireRoleOrPromptLogin(role) {
+            if (currentUser && currentUser.role === role) return true;
+            authMode = 'login';
+            setAuthRole(role);
+            switchPage('auth-page');
+            return false;
+        }
+
+        function openCitizen() {
+            lastScrollPosition = window.scrollY;
+            if (!requireRoleOrPromptLogin('citizen')) return;
+            const page = document.getElementById('citizen-page');
+            page.style.animation = 'none';
+            setTimeout(() => {
+                page.style.animation = 'pageSlideUp 0.6s ease-out';
+                switchPage('citizen-page');
+                document.getElementById('citizenName').value = currentUser.name;
+                resetComplaintForm();
+                loadMyComplaints();
+            }, 10);
+        }
+
+        function openOfficer() {
+            lastScrollPosition = window.scrollY;
+            if (!requireRoleOrPromptLogin('officer')) return;
+            const page = document.getElementById('officer-page');
+            page.style.animation = 'none';
+            setTimeout(() => {
+                page.style.animation = 'pageBounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                switchPage('officer-page');
+                loadOfficerComplaints();
+            }, 10);
+        }
+
+        function openVerify() {
+            lastScrollPosition = window.scrollY;
+            const page = document.getElementById('verify-page');
+            page.style.animation = 'none';
+            setTimeout(() => {
+                page.style.animation = 'pageGlowIn 0.8s ease-out';
+                switchPage('verify-page');
+            }, 10);
+        }
+
+        function openAnalytics() {
+            lastScrollPosition = window.scrollY;
+            const page = document.getElementById('analytics-page');
+            page.style.animation = 'none';
+            setTimeout(() => {
+                page.style.animation = 'pageSlideFromLeft 0.8s ease-out';
+                switchPage('analytics-page');
+                loadAnalytics();
+            }, 10);
+        }
+
+        function openCommunity() {
+            lastScrollPosition = window.scrollY;
+            switchPage('community-page');
+            loadCommunityFeed();
+        }
+
+        // ---- Complaint form helpers ----
+        function handleCategoryChange() {
+            const select = document.getElementById('category');
+            document.getElementById('categoryOtherGroup').style.display = select.value === '__other__' ? 'block' : 'none';
+        }
+
+        function setPriority(priority) {
+            selectedPriority = priority;
+            document.querySelectorAll('.flair-btn').forEach(btn => {
+                const isActive = btn.dataset.priority === priority;
+                const colors = { URGENT: '#ff4d4d', MEDIUM: '#ff9800', LOW: '#4caf50' };
+                const color = colors[btn.dataset.priority];
+                btn.style.background = isActive ? color : 'transparent';
+                btn.style.color = isActive ? '#0a0510' : btn.style.color;
+            });
+        }
+
+        function fileToDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleImageSelect(event, previewId, targetArrayName) {
+            const files = Array.from(event.target.files || []);
+            const dataUrls = await Promise.all(files.map(fileToDataUrl));
+            if (targetArrayName === 'complaintImagesData') {
+                complaintImagesData = dataUrls;
+            }
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = dataUrls.map(url => `
+                <img src="${url}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(147, 112, 219, 0.4);">
+            `).join('');
+        }
+
+        function resetComplaintForm() {
+            document.getElementById('category').value = 'Pothole / Road Damage';
+            document.getElementById('categoryOtherGroup').style.display = 'none';
+            document.getElementById('categoryOther').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('complaintImages').value = '';
+            document.getElementById('complaintImagePreview').innerHTML = '';
+            document.getElementById('duplicateNotice').style.display = 'none';
+            complaintImagesData = [];
+            selectedPriority = null;
+            document.querySelectorAll('.flair-btn').forEach(btn => {
+                btn.style.background = 'transparent';
+            });
+        }
+
+        // ---- Display helpers ----
+        function daysSince(dateStr) {
+            return Math.floor((Date.now() - new Date(dateStr)) / (1000 * 60 * 60 * 24));
+        }
+
+        function priorityBadge(priority) {
+            const map = {
+                URGENT: { color: '#ff4d4d', label: '🔴 Urgent' },
+                MEDIUM: { color: '#ff9800', label: '🟠 Medium' },
+                LOW: { color: '#4caf50', label: '🟢 Low' },
+            };
+            const p = map[priority] || map.MEDIUM;
+            return `<span style="background: ${p.color}22; color: ${p.color}; border: 1px solid ${p.color}66; padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700;">${p.label}</span>`;
+        }
+
+        function seenTicks(seenAt) {
+            return seenAt
+                ? `<span style="color: #00aaff; font-weight: 600;" title="Seen by officer">✓✓ Seen</span>`
+                : `<span style="color: rgba(255,255,255,0.5); font-weight: 600;" title="Sent, not yet seen">✓✓ Sent</span>`;
+        }
+
+        function thumbnailImg(thumbnail) {
+            if (!thumbnail || !thumbnail.data) return '';
+            return `<img src="data:${thumbnail.mime_type};base64,${thumbnail.data}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 0.8rem;">`;
+        }
+
+        function renderComplaintCard(c, { showCitizen = false, showActions = false } = {}) {
+            const actionsHtml = showActions ? `
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="submit-btn" style="flex: 1; background: rgba(147, 112, 219, 0.3); color: #b89fff;" onclick="updateStatus(${c.id}, 'IN_PROGRESS')">In Progress</button>
+                    <button class="submit-btn" style="flex: 1;" onclick="updateStatus(${c.id}, 'RESOLVED')">Resolved (photo required)</button>
+                </div>` : '';
+
+            const citizenRow = showCitizen ? `
+                <div class="info-item">
+                    <span class="info-label">Citizen:</span>
+                    <span class="info-value">${c.citizen_name || ''}</span>
+                </div>` : '';
+
+            const ticksRow = !showCitizen ? `
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">${seenTicks(c.seen_at)}</span>
+                </div>` : '';
+
+            return `
+                <div class="complaint-item">
+                    ${thumbnailImg(c.thumbnail)}
+                    <div class="complaint-header">
+                        <div class="complaint-id">${c.complaint_code}</div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            ${priorityBadge(c.priority)}
+                            <div class="status-badge">${c.status}</div>
+                        </div>
+                    </div>
+                    <div class="complaint-info">
+                        ${citizenRow}
+                        <div class="info-item">
+                            <span class="info-label">Category:</span>
+                            <span class="info-value">${c.category}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Location:</span>
+                            <span class="info-value">${c.location}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Days:</span>
+                            <span class="info-value">${daysSince(c.created_at)}</span>
+                        </div>
+                        ${ticksRow}
+                        <div class="info-item">
+                            <span class="info-label">Agrees:</span>
+                            <span class="info-value">👍 ${c.agree_count || 0} · 💬 ${c.comment_count || 0}</span>
+                        </div>
+                    </div>
+                    ${actionsHtml}
+                </div>`;
+        }
+
+        // ---- File a complaint ----
+        async function fileComplaint() {
+            const categorySelect = document.getElementById('category');
+            const category = categorySelect.value === '__other__'
+                ? document.getElementById('categoryOther').value.trim()
+                : categorySelect.value;
+            const location = document.getElementById('location').value.trim();
+            const description = document.getElementById('description').value.trim();
+
+            if (!category) { alert('Please specify the field/department'); return; }
+            if (!location || !description) { alert('Please fill all fields'); return; }
+            if (!selectedPriority) { alert('Please select an urgency level'); return; }
+
+            try {
+                const data = await apiFetch('/complaints', {
+                    method: 'POST',
+                    body: JSON.stringify({ category, location, description, priority: selectedPriority, images: complaintImagesData }),
+                });
+
+                if (data.duplicate) {
+                    pendingDuplicateComplaintId = data.complaint.id;
+                    const notice = document.getElementById('duplicateNotice');
+                    notice.style.display = 'block';
+                    notice.innerHTML = `
+                        A similar open complaint already exists at this address:
+                        <strong>${data.complaint.complaint_code}</strong> (${data.complaint.status}, 👍 ${data.complaint.agree_count} agree${data.complaint.agree_count === 1 ? '' : 's'}).
+                        <br><br>
+                        <button class="submit-btn" style="padding: 0.6rem 1.2rem;" onclick="agreeToDuplicate()">👍 Add My Agreement Instead</button>
+                    `;
+                    return;
+                }
+
+                const popup = document.getElementById('successPopup');
+                popup.classList.add('show');
+                setTimeout(() => popup.classList.remove('show'), 3000);
+                resetComplaintForm();
+                loadMyComplaints();
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function agreeToDuplicate() {
+            if (!pendingDuplicateComplaintId) return;
+            try {
+                await apiFetch(`/complaints/${pendingDuplicateComplaintId}/agree`, { method: 'POST' });
+                alert('Your agreement has been added to the existing complaint.');
+                resetComplaintForm();
+                loadMyComplaints();
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function loadMyComplaints() {
+            const container = document.getElementById('complaintsList');
+            try {
+                const data = await apiFetch('/complaints/mine');
+                if (data.complaints.length === 0) {
+                    container.innerHTML = '<p style="color: rgba(255,255,255,0.6); font-size: 1.1rem;">No complaints filed yet. File one to get started.</p>';
+                    return;
+                }
+                container.innerHTML = data.complaints.map(c => renderComplaintCard(c)).join('');
+            } catch (err) {
+                container.innerHTML = `<p style="color:#ff8a8a;">${err.message}</p>`;
+            }
+        }
+
+        // ---- Officer dashboard ----
+        async function loadOfficerComplaints() {
+            try {
+                const data = await apiFetch('/complaints');
+                const complaints = data.complaints;
+                const total = complaints.length;
+                const pending = complaints.filter(c => c.status !== 'RESOLVED').length;
+                const resolved = complaints.filter(c => c.status === 'RESOLVED').length;
+
+                document.getElementById('totalComplaints').textContent = total;
+                document.getElementById('pendingComplaints').textContent = pending;
+                document.getElementById('resolvedComplaints').textContent = resolved;
+
+                const container = document.getElementById('officerComplaints');
+                const pendingComplaints = complaints.filter(c => c.status !== 'RESOLVED');
+
+                if (pendingComplaints.length === 0) {
+                    container.innerHTML = '<p style="color: rgba(255,255,255,0.6); font-size: 1.1rem;">All complaints resolved! ✓</p>';
+                    return;
+                }
+                container.innerHTML = pendingComplaints.map(c => renderComplaintCard(c, { showCitizen: true, showActions: true })).join('');
+            } catch (err) {
+                document.getElementById('officerComplaints').innerHTML = `<p style="color:#ff8a8a;">${err.message}</p>`;
+            }
+        }
+
+        function pickImageFile() {
+            return new Promise((resolve) => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = async () => {
+                    const file = input.files && input.files[0];
+                    resolve(file ? await fileToDataUrl(file) : null);
+                };
+                input.click();
+            });
+        }
+
+        async function updateStatus(complaintId, newStatus) {
+            try {
+                let resolutionPhoto = null;
+                if (newStatus === 'RESOLVED') {
+                    resolutionPhoto = await pickImageFile();
+                    if (!resolutionPhoto) {
+                        alert('A photo of the resolved issue is required to mark this Resolved.');
+                        return;
+                    }
+                }
+                await apiFetch(`/complaints/${complaintId}/status`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({ status: newStatus, resolutionPhoto }),
+                });
+                loadOfficerComplaints();
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        // ---- Verify ----
+        async function verifyComplaint() {
+            const searchId = document.getElementById('searchId').value.trim().toUpperCase();
+            const resultDiv = document.getElementById('verifyResult');
+            if (!searchId) return;
+
+            try {
+                const data = await apiFetch(`/complaints/verify/${encodeURIComponent(searchId)}`);
+                const complaint = data.complaint;
+
+                const blockchainHtml = data.events.map(entry => `
+                    <div style="padding: 1rem; background: rgba(147, 112, 219, 0.1); border-radius: 8px; margin-bottom: 0.8rem; border-left: 3px solid rgba(147, 112, 219, 0.5);">
+                        <div style="color: #00d4ff; font-weight: 600; margin-bottom: 0.3rem;">⏰ ${new Date(entry.created_at).toLocaleString()}</div>
+                        <div style="margin-bottom: 0.3rem;">→ ${entry.action}${entry.actor_name ? ` (by ${entry.actor_name})` : ''}</div>
+                        <div style="color: rgba(147, 112, 219, 0.7); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;">Hash: 0x${entry.hash.substring(0, 16)}…</div>
+                    </div>
+                `).join('');
+
+                const verifiedBanner = data.verified
+                    ? `<h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #7cfc00;">✓ Verified — ledger is intact</h3>`
+                    : `<h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #ff6b6b;">⚠ Integrity check failed</h3>`;
+
+                resultDiv.innerHTML = `
+                    <div style="margin-top: 2rem; background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(0, 255, 100, 0.05)); border: 1px solid rgba(76, 175, 80, 0.3); border-radius: 12px; padding: 2rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                            <div>
+                                ${verifiedBanner}
+                                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                    <div>
+                                        <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Complaint ID</div>
+                                        <div style="font-weight: 600; color: #00d4ff; font-family: 'IBM Plex Mono', monospace; font-size: 1.2rem;">${complaint.complaint_code}</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Status</div>
+                                        <div style="font-weight: 600; font-size: 1.2rem;">${complaint.status} &nbsp; ${priorityBadge(complaint.priority)}</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Filed By</div>
+                                        <div style="font-weight: 600;">Anonymous Citizen (identity protected)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Category</div>
+                                    <div style="font-weight: 600; margin-bottom: 1rem;">${complaint.category}</div>
+                                </div>
+                                <div>
+                                    <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Location</div>
+                                    <div style="font-weight: 600; margin-bottom: 1rem;">${complaint.location}</div>
+                                </div>
+                                <div>
+                                    <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Description</div>
+                                    <div style="font-weight: 500; font-size: 0.9rem;">${complaint.description}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid rgba(147, 112, 219, 0.2); padding-top: 1.5rem;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">⛓️ Blockchain Timeline</h3>
+                            ${blockchainHtml}
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color: rgba(255,255,255,0.6); margin-top: 2rem;">${err.message}</p>`;
+            }
+        }
+
+        // ---- Analytics ----
+        async function loadAnalytics() {
+            try {
+                const data = await apiFetch('/analytics');
+                document.getElementById('totalAnalytics').textContent = data.total;
+                document.getElementById('resolutionRate').textContent = data.resolutionRate + '%';
+                document.getElementById('avgResponseTime').textContent = data.avgResponseDays + ' days';
+
+                const categoriesDiv = document.getElementById('categoriesBreakdown');
+                if (data.categories.length === 0) {
+                    categoriesDiv.innerHTML = '<p style="color: rgba(255,255,255,0.6);">No data yet.</p>';
+                    return;
+                }
+                categoriesDiv.innerHTML = data.categories.map(({ category, count }) => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; border-bottom: 1px solid rgba(147, 112, 219, 0.15);">
+                        <span style="font-weight: 500;">${category}</span>
+                        <span style="background: linear-gradient(135deg, rgba(147, 112, 219, 0.3), rgba(0, 212, 255, 0.2)); padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; color: #00d4ff;">${count}</span>
+                    </div>
+                `).join('');
+            } catch (err) {
+                document.getElementById('categoriesBreakdown').innerHTML = `<p style="color:#ff8a8a;">${err.message}</p>`;
+            }
+        }
+
+        // ---- Community feed ----
+        async function loadCommunityFeed() {
+            const container = document.getElementById('communityList');
+            container.innerHTML = '<p style="color: rgba(255,255,255,0.6);">Loading…</p>';
+            try {
+                const data = await apiFetch('/complaints/public');
+                if (data.complaints.length === 0) {
+                    container.innerHTML = '<p style="color: rgba(255,255,255,0.6);">No complaints filed yet.</p>';
+                    return;
+                }
+                container.innerHTML = data.complaints.map(c => `
+                    <div class="complaint-item" style="cursor: pointer;" onclick="openComplaintDetail(${c.id})">
+                        <div style="display: flex; gap: 1.2rem;">
+                            ${c.thumbnail ? `<img src="data:${c.thumbnail.mime_type};base64,${c.thumbnail.data}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">` : ''}
+                            <div style="flex: 1;">
+                                <div class="complaint-header">
+                                    <div class="complaint-id">${c.complaint_code}</div>
+                                    <div style="display: flex; gap: 0.5rem;">${priorityBadge(c.priority)}<div class="status-badge">${c.status}</div></div>
+                                </div>
+                                <div style="color: rgba(255,255,255,0.8); margin: 0.5rem 0;">${c.category} · ${c.location}</div>
+                                <div style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">${c.description.substring(0, 120)}${c.description.length > 120 ? '…' : ''}</div>
+                                <div style="margin-top: 0.6rem; display: flex; gap: 1rem; align-items: center;">
+                                    <button onclick="event.stopPropagation(); quickAgree(${c.id})" style="background: rgba(76,175,80,0.15); border: 1px solid rgba(76,175,80,0.4); color: #7cfc00; padding: 0.4rem 0.9rem; border-radius: 20px; cursor: pointer; font-weight: 700;">➕ Agree (${c.agree_count})</button>
+                                    <span style="color: rgba(255,255,255,0.6);">💬 ${c.comment_count} comments</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                container.innerHTML = `<p style="color:#ff8a8a;">${err.message}</p>`;
+            }
+        }
+
+        async function quickAgree(id) {
+            if (!requireLoginOrPrompt('citizen')) return;
+            try {
+                await apiFetch(`/complaints/${id}/agree`, { method: 'POST' });
+                loadCommunityFeed();
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        function commentBlock(comments) {
+            if (comments.length === 0) {
+                return '<p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">No comments yet.</p>';
+            }
+            return comments.map(cm => `
+                <div style="padding: 0.7rem 0; border-bottom: 1px solid rgba(147,112,219,0.15);">
+                    <div style="font-weight: 600; font-size: 0.85rem; color: ${cm.author_role === 'officer' ? '#00d4ff' : '#b89fff'};">${cm.author_name}${cm.author_role === 'officer' ? ' (Officer)' : ''}</div>
+                    <div style="font-size: 0.9rem;">${cm.comment_text}</div>
+                </div>
+            `).join('');
+        }
+
+        let currentDetailId = null;
+
+        async function openComplaintDetail(id) {
+            currentDetailId = id;
+            const overlay = document.getElementById('detailOverlay');
+            const content = document.getElementById('detailContent');
+            overlay.style.display = 'block';
+            content.innerHTML = '<p style="color: rgba(255,255,255,0.6);">Loading…</p>';
+
+            try {
+                const data = await apiFetch(`/complaints/${id}/detail`);
+                const c = data.complaint;
+
+                const imagesHtml = data.images.length
+                    ? `<div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1rem 0;">
+                        ${data.images.map(img => `<img src="data:${img.mime_type};base64,${img.image_data}" style="width: 140px; height: 140px; object-fit: cover; border-radius: 8px;">`).join('')}
+                       </div>` : '';
+
+                const resolutionHtml = data.resolution_photos.length
+                    ? data.resolution_photos.map(photo => `
+                        <div style="background: rgba(76,175,80,0.08); border: 1px solid rgba(76,175,80,0.25); border-radius: 10px; padding: 1.2rem; margin-top: 1rem;">
+                            <img src="data:${photo.mime_type};base64,${photo.image_data}" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 0.8rem;">
+                            <div style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 0.6rem;">Resolved: ${new Date(photo.uploaded_at).toLocaleString()}</div>
+                            <div style="display: flex; gap: 0.8rem; margin-bottom: 0.8rem;">
+                                <button onclick="voteResolution(${photo.id}, 1)" style="background: rgba(76,175,80,0.15); border: 1px solid rgba(76,175,80,0.4); color: #7cfc00; padding: 0.4rem 0.9rem; border-radius: 20px; cursor: pointer;">👍 ${photo.upvotes}</button>
+                                <button onclick="voteResolution(${photo.id}, -1)" style="background: rgba(255,77,77,0.15); border: 1px solid rgba(255,77,77,0.4); color: #ff8080; padding: 0.4rem 0.9rem; border-radius: 20px; cursor: pointer;">👎 ${photo.downvotes}</button>
+                            </div>
+                            ${commentBlock(photo.comments)}
+                            <div style="display: flex; gap: 0.6rem; margin-top: 0.8rem;">
+                                <input type="text" id="resComment-${photo.id}" placeholder="Comment on this resolution..." style="flex: 1; padding: 0.6rem 0.9rem; border-radius: 8px; border: 1px solid rgba(147,112,219,0.3); background: rgba(255,255,255,0.05); color: #fff;">
+                                <button class="submit-btn" style="padding: 0.6rem 1.2rem;" onclick="submitResolutionComment(${photo.id})">Post</button>
+                            </div>
+                        </div>
+                    `).join('')
+                    : '';
+
+                content.innerHTML = `
+                    <div class="complaint-header">
+                        <div class="complaint-id">${c.complaint_code}</div>
+                        <div style="display: flex; gap: 0.5rem;">${priorityBadge(c.priority)}<div class="status-badge">${c.status}</div></div>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.8); margin: 0.8rem 0;">${c.category} · ${c.location}</div>
+                    <div style="margin-bottom: 1rem;">${c.description}</div>
+                    ${imagesHtml}
+                    <div style="margin: 1rem 0;">
+                        <button onclick="quickAgree(${c.id})" style="background: rgba(76,175,80,0.15); border: 1px solid rgba(76,175,80,0.4); color: #7cfc00; padding: 0.5rem 1.1rem; border-radius: 20px; cursor: pointer; font-weight: 700;">➕ Agree (${data.agree_count})</button>
+                    </div>
+                    <div style="border-top: 1px solid rgba(147,112,219,0.2); padding-top: 1rem;">
+                        <h3 style="margin-bottom: 0.8rem;">💬 Discussion</h3>
+                        ${commentBlock(data.comments)}
+                        <div style="display: flex; gap: 0.6rem; margin-top: 0.8rem;">
+                            <input type="text" id="complaintComment" placeholder="Add a comment..." style="flex: 1; padding: 0.6rem 0.9rem; border-radius: 8px; border: 1px solid rgba(147,112,219,0.3); background: rgba(255,255,255,0.05); color: #fff;">
+                            <button class="submit-btn" style="padding: 0.6rem 1.2rem;" onclick="submitComplaintComment()">Post</button>
+                        </div>
+                    </div>
+                    ${resolutionHtml ? `<div style="border-top: 1px solid rgba(147,112,219,0.2); padding-top: 1rem; margin-top: 1.5rem;"><h3 style="margin-bottom: 0.5rem;">✓ Resolution</h3>${resolutionHtml}</div>` : ''}
+                `;
+            } catch (err) {
+                content.innerHTML = `<p style="color:#ff8a8a;">${err.message}</p>`;
+            }
+        }
+
+        function closeDetail() {
+            document.getElementById('detailOverlay').style.display = 'none';
+            currentDetailId = null;
+        }
+
+        async function submitComplaintComment() {
+            if (!requireLoginOrPrompt()) return;
+            const input = document.getElementById('complaintComment');
+            const comment = input.value.trim();
+            if (!comment) return;
+            try {
+                await apiFetch(`/complaints/${currentDetailId}/comments`, {
+                    method: 'POST',
+                    body: JSON.stringify({ comment }),
+                });
+                input.value = '';
+                openComplaintDetail(currentDetailId);
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function voteResolution(photoId, vote) {
+            if (!requireLoginOrPrompt()) return;
+            try {
+                await apiFetch(`/resolution-photos/${photoId}/vote`, {
+                    method: 'POST',
+                    body: JSON.stringify({ vote }),
+                });
+                openComplaintDetail(currentDetailId);
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function submitResolutionComment(photoId) {
+            if (!requireLoginOrPrompt()) return;
+            const input = document.getElementById(`resComment-${photoId}`);
+            const comment = input.value.trim();
+            if (!comment) return;
+            try {
+                await apiFetch(`/resolution-photos/${photoId}/comments`, {
+                    method: 'POST',
+                    body: JSON.stringify({ comment }),
+                });
+                openComplaintDetail(currentDetailId);
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        // ---- Init ----
+        renderAuthStatus();
+        updateAuthUI();
+    </script>
+</body>
+</html>
