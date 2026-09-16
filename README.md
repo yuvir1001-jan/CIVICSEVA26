@@ -8,19 +8,21 @@ running actual distributed nodes for a demo).
 ## Architecture
 
 ```
-civicchain/
-├── backend/          Node.js + Express + PostgreSQL API
-│   └── src/
-│       ├── server.js         App entry point
-│       ├── db.js             PostgreSQL connection pool
-│       ├── schema.sql        Table definitions
-│       ├── migrate.js        Applies schema.sql
-│       ├── seed.js           Optional demo data
-│       ├── middleware/auth.js
-│       ├── routes/auth.js         /api/auth/register, /api/auth/login, /api/auth/me
-│       ├── routes/complaints.js   /api/complaints/*
-│       ├── routes/analytics.js    /api/analytics
-│       └── utils/blockchain.js    SHA-256 hash-chaining logic
+civicseva/
+├── src/               Node.js + Express + PostgreSQL API
+│   ├── server.js         App entry point (also serves frontend/ as static files)
+│   ├── db.js              PostgreSQL connection pool
+│   ├── schema.sql        Table definitions
+│   ├── migrate.js        Applies schema.sql
+│   ├── seed.js            Optional demo data
+│   ├── middleware/auth.js
+│   ├── routes/auth.js           /api/auth/register, /api/auth/login, /api/auth/me
+│   ├── routes/complaints.js     /api/complaints/*
+│   ├── routes/analytics.js      /api/analytics
+│   ├── routes/resolutionPhotos.js
+│   └── utils/
+│       ├── blockchain.js  SHA-256 hash-chaining logic
+│       └── images.js
 └── frontend/
     └── index.html    The original UI, rewired to call the API instead of localStorage
 ```
@@ -52,7 +54,6 @@ createdb civicchain          # or create it however your provider expects
 ## 2. Set up the backend
 
 ```bash
-cd backend
 cp .env.example .env
 # edit .env: set DATABASE_URL to your Postgres connection string,
 # and set JWT_SECRET to a random string (the .env.example comment
@@ -61,7 +62,7 @@ cp .env.example .env
 npm install
 npm run migrate     # creates the tables
 npm run seed         # optional: adds a demo citizen, officer, and complaint
-npm start            # starts the API on http://localhost:5000
+npm start            # starts the API on http://localhost:5000, also serving frontend/
 ```
 
 Demo accounts created by `npm run seed`:
@@ -72,8 +73,12 @@ Demo accounts created by `npm run seed`:
 
 ## 3. Run the frontend
 
-The frontend is a single static HTML file — no build step. The simplest way
-to run it locally:
+`npm start` already serves `frontend/index.html` as a static file from the
+same Express server (http://localhost:5000), so there's usually nothing
+extra to do — open that URL and go.
+
+If you'd rather run the frontend as its own standalone static site (e.g. a
+separate CDN/static host from the API), that still works:
 
 ```bash
 cd frontend
@@ -81,14 +86,29 @@ python3 -m http.server 8080
 # then open http://localhost:8080
 ```
 
-By default it calls the API at `http://localhost:5000/api`. If you deploy
-the backend somewhere else, either edit `API_BASE` near the top of the
-`<script>` tag in `index.html`, or add this line right before that script
-tag when you deploy:
+By default it calls the API at `http://localhost:5000/api`. If the frontend
+and backend aren't on the same origin, either edit `API_BASE` near the top
+of the `<script>` tag in `index.html`, or add this line right before that
+script tag:
 
 ```html
-<script>window.CIVICCHAIN_API_BASE = 'https://your-api.example.com/api';</script>
+<script>window.CivicSeva_API_BASE = 'https://your-api.example.com/api';</script>
 ```
+
+## Deploying (Render)
+
+This repo includes a `render.yaml` for a one-service deploy (API + static
+frontend together, since `server.js` serves `frontend/` itself):
+
+1. Push this repo to GitHub, connect it in the Render dashboard
+   ("New" → "Blueprint", point at this repo).
+2. Render will read `render.yaml` and create one Web Service. Before the
+   first deploy, set the `DATABASE_URL` env var to your Postgres connection
+   string (Render generates `JWT_SECRET` for you automatically).
+3. After the first successful deploy, run the migration once against that
+   database — either locally with `DATABASE_URL` pointed at production
+   (`npm run migrate`), or via a Render Shell on the service.
+4. Optionally `npm run seed` the same way for demo accounts.
 
 ## 4. Using it
 

@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 
@@ -19,6 +20,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintsRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/resolution-photos', resolutionPhotosRoutes);
+
+// Serve the static frontend from the same service so there's one deploy,
+// no CORS, and no separate API_BASE to configure.
+const frontendDir = path.join(__dirname, '..', 'frontend');
+app.use(express.static(frontendDir));
+app.get(/^(?!\/api\/).*/, (req, res) => {
+    res.sendFile(path.join(frontendDir, 'index.html'));
+});
 
 app.use((req, res) => {
     res.status(404).json({ error: 'Not found' });
